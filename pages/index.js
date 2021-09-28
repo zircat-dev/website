@@ -3,15 +3,14 @@ import { css } from '@emotion/react';
 
 import { Container, Row, Col } from 'react-grid-system';
 
-const baseUrl = './public/';
+const baseUrl = '.';
 
 const imageConfig = type =>
   ({
-    LOGO: `${baseUrl}assets/logo.svg`,
+    LOGO: `${baseUrl}/assets/logo.svg`,
   }[type || 'LOGO']);
 
 const Image = styled.div`
-  width: 460px;
   height: 195px;
   min-height: 460px;
   min-width: 195px;
