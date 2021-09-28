@@ -22,6 +22,8 @@ const COLOURS = {
     '#1655D8',
     '#AA00CE',
     '#DD2559',
+    '#FF9800',
+    '#FFE700',
     '#00c30c',
     '#02cbec'
   ]
@@ -37,7 +39,6 @@ const textSequence = range(1, TEXT_COUNT + 1).map(pipe(
   concat('.text-')
 ));
 
-console.log({ textSequence });
 const textDelays = textSequence.reduce((result, textClass, index) => {
   const offset = animationOffset * (index + 1);
 
@@ -50,8 +51,6 @@ const textDelays = textSequence.reduce((result, textClass, index) => {
 }, {})
 
 const keyframeStep = 100 / (COLOURS.RAINBOW.length + 1);
-
-console.log({ rainbow: COLOURS.RAINBOW })
 
 const rainbowKeyframes = COLOURS.RAINBOW.reduce(
   (result, colour, index) => {
