@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 const globalStyles = css`
   html {
     box-sizing: border-box;
-    background-color: #2e3138;
+    background-color: #222328;
   }
   * {
     box-sizing: inherit;

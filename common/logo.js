@@ -1,17 +1,73 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/css';
+import { css, keyframes } from '@emotion/css';
+
+import {
+  range,
+  concat,
+  pipe,
+  toString
+} from 'ramda';
 
 const PLAIN = '#FFFEEE';
 const COLOURS = {
   PLAIN,
+  TEXT: PLAIN,
   BIG_Z: {
     LAYER_3: 'rgb(209,52,52)',
     LAYER_2: 'rgb(135,52,209)',
     LAYER_1: PLAIN
   },
-  TEXT: PLAIN
+  RAINBOW: [
+    '#1655D8',
+    '#AA00CE',
+    '#DD2559',
+    '#00c30c',
+    '#02cbec'
+  ]
 }
+
+const TEXT_COUNT = 5;
+const BIG_Z_COUNT = 3;
+
+const animationOffset = 300;
+
+const textSequence = range(1, TEXT_COUNT + 1).map(pipe(
+  toString,
+  concat('.text-')
+));
+
+console.log({ textSequence });
+const textDelays = textSequence.reduce((result, textClass, index) => {
+  const offset = animationOffset * (index + 1);
+
+  return {
+    ...result,
+    [`&${textClass}`]: {
+      animationDelay: `${offset}ms`
+    }
+  }
+}, {})
+
+const keyframeStep = 100 / (COLOURS.RAINBOW.length + 1);
+
+console.log({ rainbow: COLOURS.RAINBOW })
+
+const rainbowKeyframes = COLOURS.RAINBOW.reduce(
+  (result, colour, index) => {
+    const step = keyframeStep * (index + 1);
+
+    return {
+      ...result,
+      [`${step}%`]: {
+        fill: colour
+      },
+    }
+  },
+  {}
+)
+
+const rainbowSpread = keyframes(rainbowKeyframes);
 
 const parentSvgStyle = css`
   fill-rule: evenodd;
@@ -24,7 +80,9 @@ const parentSvgStyle = css`
 const styleRules = css({
   '& .text': {
     fillRule: 'nonzero',
-    fill: COLOURS.TEXT
+    fill: COLOURS.TEXT,
+    animation: `${rainbowSpread} 3s linear infinite`,
+    ...textDelays
   },
   '& .big-z': {
     '& .layer-1': {
