@@ -10,12 +10,25 @@ const imageConfig = type =>
     LOGO: `${baseUrl}/assets/logo.svg`,
   }[type || 'LOGO']);
 
+const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .image {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 200px;
+    transform: translate(-50%, -50%);
+  }
+`;
+
 const Image = styled.div`
-  height: 195px;
-  min-height: 460px;
-  min-width: 195px;
+  width: 100%;
+  height: 100px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: object-fit;
   display: flex;
   margin-left: 4px;
   &::first-child {
@@ -31,11 +44,11 @@ const Image = styled.div`
 const Landing = () => {
   return (
     <Container>
+      <Header>
+        <Image className="image" imageSrc={imageConfig('LOGO')} />
+      </Header>
       <Row>
-        <Col>
-          <Image imageSrc={imageConfig('LOGO')} />
-          Zircat
-        </Col>
+        <Col></Col>
       </Row>
     </Container>
   );

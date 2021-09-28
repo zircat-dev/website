@@ -1,9 +1,12 @@
 import React from 'react';
 import Structure from './_structure';
+import { ThemeProvider } from '../common';
 
 const Zircat = ({ Component, pageProps }) => (
   <Structure>
-    <Component {...pageProps} />
+    <ThemeProvider>
+      <Component {...pageProps} />
+    </ThemeProvider>
   </Structure>
 );
 
