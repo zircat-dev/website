@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -37,9 +36,6 @@ const Landing = () => {
         <Col>
           <Image imageSrc={imageConfig('LOGO')} />
           Zircat
-          <Link href="/about">
-            <a>About</a>
-          </Link>
         </Col>
       </Row>
     </Container>
