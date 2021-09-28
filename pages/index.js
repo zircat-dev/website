@@ -3,18 +3,15 @@ import { css } from '@emotion/react';
 
 import { Container, Row, Col } from 'react-grid-system';
 
-const baseUrl = '.';
+import Logo from '../common/logo';
 
-const imageConfig = type =>
-  ({
-    LOGO: `${baseUrl}/assets/logo.svg`,
-  }[type || 'LOGO']);
+const baseUrl = '.';
 
 const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 99vh;
   .image {
     position: fixed;
     left: 50%;
@@ -24,28 +21,34 @@ const Header = styled.div`
   }
 `;
 
-const Image = styled.div`
-  width: 100%;
-  height: 100px;
-  background-repeat: no-repeat;
-  background-size: object-fit;
-  display: flex;
-  margin-left: 4px;
-  &::first-child {
-    margin-left: 0;
+const Image = styled.div({
+  width: '100%',
+  height: '100px',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'object-fit',
+  dislpay: 'flex',
+  marginLeft: '4px',
+  '&::first-child': {
+    marginLeft: 0
   }
-  ${props =>
-    props.imageSrc &&
-    css`
-      background-image: ${`url(${props.imageSrc})`};
-    `}
-`;
+}, (
+  (props => props.imageSrc && {
+    backgroundImage: `url(${props.imageSrc})`
+  })
+))
+
+const LogoContainer = styled.div({
+  width: '400px',
+  // height: '100px',
+})
 
 const Landing = () => {
   return (
     <Container>
       <Header>
-        <Image className="image" imageSrc={imageConfig('LOGO')} />
+        <LogoContainer>
+          <Logo />
+        </LogoContainer>
       </Header>
       <Row>
         <Col></Col>
