@@ -32,7 +32,7 @@ const COLOURS = {
 const TEXT_COUNT = 5;
 const BIG_Z_COUNT = 3;
 
-const animationOffset = 300;
+const textDelayOffset = 200;
 
 const textSequence = range(1, TEXT_COUNT + 1).map(pipe(
   toString,
@@ -40,7 +40,7 @@ const textSequence = range(1, TEXT_COUNT + 1).map(pipe(
 ));
 
 const textDelays = textSequence.reduce((result, textClass, index) => {
-  const offset = animationOffset * (index + 1);
+  const offset = textDelayOffset * (index + 1);
 
   return {
     ...result,
@@ -50,23 +50,33 @@ const textDelays = textSequence.reduce((result, textClass, index) => {
   }
 }, {})
 
-const keyframeStep = 100 / (COLOURS.RAINBOW.length + 1);
+const rainbowOffset = 50 / (COLOURS.RAINBOW.length + 1);
 
-const rainbowKeyframes = COLOURS.RAINBOW.reduce(
-  (result, colour, index) => {
-    const step = keyframeStep * (index + 1);
+const rainbowKeyframes = COLOURS.RAINBOW.reduce((result, colour, index) => {
+  const step = rainbowOffset * (index + 1);
 
-    return {
-      ...result,
-      [`${step}%`]: {
-        fill: colour
-      },
-    }
+  return {
+    ...result,
+    [`${step}%`]: {
+      fill: colour
+    },
+  }
+}, {})
+
+const rainbowSpread = keyframes({
+  ...rainbowKeyframes,
+  ['50%, 100%']: {
+    fill: PLAIN
   },
-  {}
-)
-
-const rainbowSpread = keyframes(rainbowKeyframes);
+});
+const bobbingMotion = keyframes({
+  ['0%, 100%']: {
+    transform: 'translate3d(0px, 0px, 0px)'
+  },
+  ['35%']: {
+    transform: 'translate3d(0px, 5px, 0px)'
+  }
+})
 
 const parentSvgStyle = css`
   fill-rule: evenodd;
@@ -80,7 +90,8 @@ const styleRules = css({
   '& .text': {
     fillRule: 'nonzero',
     fill: COLOURS.TEXT,
-    animation: `${rainbowSpread} 3s linear infinite`,
+    animation: `${rainbowSpread} 3.5s linear infinite`,
+    // animationDirection: 'alternate',
     ...textDelays
   },
   '& .big-z': {
@@ -88,10 +99,13 @@ const styleRules = css({
       fill: COLOURS.BIG_Z.LAYER_1
     },
     '& .layer-2': {
-      fill: COLOURS.BIG_Z.LAYER_2
+      fill: COLOURS.BIG_Z.LAYER_2,
+      animation: `${bobbingMotion} 1s ease-in-out infinite`
     },
     '& .layer-3': {
-      fill: COLOURS.BIG_Z.LAYER_3
+      fill: COLOURS.BIG_Z.LAYER_3,
+      animation: `${bobbingMotion} 1s ease-in-out infinite`,
+      animationDelay: '200ms'
     }
   }
 })
