@@ -3,6 +3,9 @@ import { css } from '@emotion/react';
 
 import { Container, Row, Col } from 'react-grid-system';
 
+import {
+  SrOnly
+} from '../common/utils/style';
 import Logo from '../common/logo';
 
 const baseUrl = '.';
@@ -40,18 +43,24 @@ const Image = styled.div({
 const LogoContainer = styled.div({
   width: '400px',
   // height: '100px',
-})
+});
+
+const TopHeader = styled.h1(SrOnly);
 
 const Landing = () => {
   return (
     <Container>
       <Header>
+        <TopHeader>Zircat: The Web Development Consultancy of your Dreams</TopHeader>
         <LogoContainer>
           <Logo />
         </LogoContainer>
       </Header>
       <Row>
-        <Col></Col>
+        <Col>
+          <h2>Who are we, really?</h2>
+          <p>We are amazing.  That's who.  Yeah.</p>
+        </Col>
       </Row>
     </Container>
   );
