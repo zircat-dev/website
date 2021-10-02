@@ -12,15 +12,20 @@ const Landing = () => {
   return (
     <Controller>
       <Container fluid>
+        {/*Logo*/}
+        <Logo center />
+        {/*Headline*/}
+        <Headline>{CONTENT.headline}</Headline>
+
         <Row>
-          <Col xs={12}>
-            <Content>
-              {/*Logo*/}
-              <Logo center />
-              {/*Headline*/}
-              <Headline>{CONTENT.headline}</Headline>
+          <Col xs={12} md={6}>
+            <Content bgColor="#222230">
               {/*Main pitch*/}
               <p>{CONTENT.mainPitch}</p>
+            </Content>
+          </Col>
+          <Col xs={12} md={6}>
+            <Content bgColor="#222230">
               {/*Special pitch */}
               <p>{CONTENT.specialPitch}</p>
             </Content>

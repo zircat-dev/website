@@ -4,25 +4,28 @@ import { css } from '@emotion/react';
 import LogoVector from '../../../common/logo';
 
 const LogoCentered = styled.div`
-  ${props =>
-    props.isCenter &&
-    css`
-      .image {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 200px;
-        transform: translate(-50%, -50%);
-      }
-    `}
+  .centered & {
+    .image {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 200px;
+
+      transform: translate(-50%, -50%);
+    }
+  }
 `;
 
 const LogoContainer = styled.div`
-  width: '400px';
+  max-width: 350px;
+  width: 100%;
+  &.centered {
+    margin: 64px auto 64px auto;
+  }
 `;
 
 const Logo = ({ center = false }) => (
-  <LogoContainer>
+  <LogoContainer className={center ? `centered` : ''}>
     <LogoCentered isCenter={center}>
       <LogoVector />
     </LogoCentered>

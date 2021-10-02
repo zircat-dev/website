@@ -2,12 +2,17 @@ import React, { useRef, useEffect } from 'react';
 import { Container, Row, Col } from 'react-grid-system';
 
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 import { TweenMax, Power3 } from 'gsap';
 
 import { Logo } from '../Logo';
 import { Navigation } from '../Navigation';
+
+const fadeBorderBottom = keyframes`
+    0% { border-bottom:1px solid transparent; }
+    100% { border-bottom: 1px solid #222230; }
+`;
 
 const HeaderContainer = styled.div`
   ${props =>
@@ -18,6 +23,11 @@ const HeaderContainer = styled.div`
       left: 0;
       z-index: 999;
       width: 100%;
+      box-shadow: 0px 2px 8px rgba(29, 42, 67, 0.2);
+      animation-name: ${fadeBorderBottom};
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-in-out;
+      animation-duration: 0.3s;
     `}
 `;
 
@@ -33,6 +43,8 @@ const HeaderContent = styled.div`
 
 const HeaderLogo = styled.div`
   width: 100px;
+  position: relative;
+  transform: translate(0%, -20px) scale(1.1);
 `;
 
 const Header = ({ isSticky = false }) => {
@@ -41,7 +53,8 @@ const Header = ({ isSticky = false }) => {
     if (logo.current) {
       TweenMax.to(logo.current, 0.8, {
         opacity: 1,
-        y: -20,
+        y: 0,
+        scale: 1,
         ease: Power3.easeOut,
       });
     }
