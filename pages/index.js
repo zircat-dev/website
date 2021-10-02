@@ -9,9 +9,20 @@ import Logo from '../common/logo';
 
 const HeaderContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 99vh;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: 5rem;
+  width: 100%;
+`;
+
+const Header = ({ children }) => {
+  return <HeaderContainer>{children}</HeaderContainer>;
+};
+
+const HeaderLogo = styled.div`
+  width: 100px;
+  display: flex;
+  ${'' /* align-self: flex-start; */}
 `;
 
 const CenterImage = styled.div`
@@ -41,9 +52,9 @@ const List = styled.ul`
 const ListItem = styled.li`
   ${listStyles};
   display: flex;
-  flex-direction: row;
+  ${'' /* flex-direction: row; */}
   align-items: center;
-  box-sizing: border-box;
+  ${'' /* box-sizing: border-box; */}
   justify-content: center;
   padding: 10px;
   border-left: 1px solid grey;
@@ -57,18 +68,36 @@ const ListItem = styled.li`
     `}
 `;
 
-const NavigationContainer = styled.div`
+const NavigationContainer = styled.nav`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  flex-grow: 1;
+  align-items: stretch;
   justify-content: flex-end;
-  width: 100%;
-  height: 72px;
-  position: fixed;
   top: 0;
   left: 0;
   background: white;
 `;
+
+const PlainLink = styled.a({
+  color: 'inherit',
+  textDecoration: 'inherit'
+})
+
+const AnchorLink = ({ children, onClick, href = '#', ...otherProps }) => {
+  // Stops links in their tracks!
+  const clickCatcher = (event) => {
+    event.preventDefault();
+
+    onClick(event);
+  }
+
+  return (
+    <PlainLink onClick={clickCatcher} href={href} {...otherProps}>
+      {children}
+    </PlainLink>
+  )
+}
 
 const Navigation = ({ options = {} }) => {
   const [selectedId, setSelectedId] = useState(-1);
@@ -76,29 +105,25 @@ const Navigation = ({ options = {} }) => {
     setSelectedId(item.id);
   };
 
-  const renderNav = () => {
-    const navItems = values(options);
-    if (!navItems || !navItems.length) return null;
-    return (
-      <List>
-        {navItems.map(item => (
-          <ListItem
-            key={item.id}
-            isActive={selectedId === item.id}
-            onClick={() => onSelect(item.id)}
-          >
+  const navItems = values(options);
+  if (!navItems || !navItems.length) return;
+
+  const navLinks = (
+    <List>
+      {navItems.map(item => (
+        <ListItem
+          key={item.id}
+          isActive={selectedId === item.id}
+        >
+          <AnchorLink onClick={() => onSelect(item.id)}>
             {item.label}
-          </ListItem>
-        ))}
-      </List>
-    );
-  };
+          </AnchorLink>
+        </ListItem>
+      ))}
+    </List>
+  );
 
-  return <NavigationContainer>{renderNav()}</NavigationContainer>;
-};
-
-const Header = ({ children }) => {
-  return <HeaderContainer>{children}</HeaderContainer>;
+  return <NavigationContainer>{navLinks}</NavigationContainer>;
 };
 
 const LogoContainer = styled.div({
@@ -112,23 +137,15 @@ const Content = styled.div`
   position: relative;
 `;
 
-const HeaderLogo = styled.div`
-  width: 100px;
-`;
-
-const TopHeader = styled.h1(SrOnly);
-
-const Something = styled.div`
-  background: red;
-  width: 100%;
-  height: 100px;
-`;
+const DocHeadline = styled.h1(SrOnly);
 
 const Landing = () => {
   return (
     <Container>
-      <Something>Something</Something>
       <Header>
+        <DocHeadline>
+          Zircat: The Web Development Consultancy of your Dreams
+        </DocHeadline>
         <HeaderLogo>
           <Logo />
         </HeaderLogo>
@@ -140,9 +157,7 @@ const Landing = () => {
           }}
         />
       </Header>
-      <TopHeader>
-        Zircat: The Web Development Consultancy of your Dreams
-      </TopHeader>
+
       <Content id="scroll-1">
         <CenterImage>
           <LogoContainer>
@@ -155,6 +170,7 @@ const Landing = () => {
         <Col>
           <h2>Who are we, really?</h2>
           <h2>Looser</h2>
+          <h2>No you!</h2>
           <p>We are amazing. That's who. Yeah.</p>
           {/*Main pitch*/}
           <p>
