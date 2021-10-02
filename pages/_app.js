@@ -1,11 +1,11 @@
 import React from 'react';
 import Structure from './_structure';
 import { ThemeProvider } from '../common';
-import colours from '../common/Theme/colours';
+import colors from '../common/Theme/colors';
 
 const Zircat = ({ Component, pageProps }) => (
   <Structure>
-    <ThemeProvider theme={{ colours }}>
+    <ThemeProvider theme={{ colors }}>
       <Component {...pageProps} />
     </ThemeProvider>
   </Structure>

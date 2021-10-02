@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 const globalStyles = css`
   html {
     box-sizing: border-box;
-    background-color: #222328;
+    background-color: #191927;
   }
   * {
     box-sizing: inherit;
@@ -32,6 +32,10 @@ const globalStyles = css`
     background: #dfdfe7;
     border: none;
     box-shadow: none;
+  }
+  p {
+    color: #6f7b8f;
+    line-height: 24px;
   }
   * {
     font-family: 'IBM Plex Sans', sans-serif;
