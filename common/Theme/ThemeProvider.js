@@ -5,6 +5,7 @@ import { globalStyles } from './globalStyles';
 
 const ThemeProvider = ({ children }) => {
   useEffect(() => {
+    console.log('hit');
     setConfiguration({
       gutterWidth: 32,
       gridColumns: 12,
