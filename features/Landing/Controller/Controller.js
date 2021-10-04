@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { Header } from '../Header';
 import { Footer } from '../Footer';
-import { StickyHeader } from './StickyHeader';
+import { hasScrolledPast } from './StickyHeader';
 
 const ScrollCatch = styled.div`
   max-width: 960px;
@@ -12,16 +12,17 @@ const ScrollCatch = styled.div`
   padding-right: 24px;
 `;
 
-const Controller = ({ children }) => {
-  const { elementRef, isSticky } = StickyHeader({ scrollPastHeight: 100 });
+const MenuPlaceholder = styled.div({
+  height: '72px'
+});
 
-  const renderSticky = () => isSticky && <Header isSticky />;
+const Controller = ({ children }) => {
+  const { scroller, isPast } = hasScrolledPast({ distance: 72 });
 
   return (
     <>
-      {renderSticky()}
-      <ScrollCatch ref={elementRef}>
-        <Header />
+      <ScrollCatch ref={scroller}>
+        <Header isSticky={isPast} />
         {children}
       </ScrollCatch>
       <Footer />

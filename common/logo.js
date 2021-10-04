@@ -34,10 +34,13 @@ const BIG_Z_COUNT = 3;
 
 const textDelayOffset = 200;
 
-const textSequence = range(1, TEXT_COUNT + 1).map(pipe(
+const spread = (start, end) => range(start, end + 1);
+const joinClass = (startName) => pipe(
   toString,
-  concat('.text-')
-));
+  concat(startName)
+)
+
+const textSequence = spread(1, TEXT_COUNT).map(joinClass('.text-'));
 
 const textDelays = textSequence.reduce((result, textClass, index) => {
   const offset = textDelayOffset * (index + 1);
@@ -63,12 +66,21 @@ const rainbowKeyframes = COLOURS.RAINBOW.reduce((result, colour, index) => {
   }
 }, {});
 
+const createTransitionDelay = (multiplier) => (itemClass, index) => css({
+  [itemClass]: {
+    transitionDelay: `${multiplier * index}ms`
+  }
+})
+
 const LogoSvg = styled.svg`
   fill-rule: evenodd;
   clip-rule: evenodd;
   stroke-linejoin: round;
   stroke-miterlimit: 2;
   filter: drop-shadow(7px 5px 6px black);
+  .lettering {
+    ${textSequence.map(createTransitionDelay(100))}
+  }
 `;
 
 const rainbowSpread = keyframes({
@@ -109,9 +121,9 @@ const BigZed = styled.path({
   },
 });
 
-const Logo = () => {
+const Logo = ({ children, ...props }) => {
   return (
-    <LogoSvg width="100%" height="100%" viewBox="0 0 459 195" version="1.1" xmlns="http://www.w3.org/2000/svg" focussable="false">
+    <LogoSvg {...props} width="100%" height="100%" viewBox="0 0 459 195" version="1.1" xmlns="http://www.w3.org/2000/svg" focussable="false">
         <title>Zircat</title>
         <g transform="matrix(1,0,0,1,-524.27,-1233.34)">
             <g transform="matrix(0.532325,0,0,0.532325,362.443,1008.17)">

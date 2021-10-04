@@ -1,31 +1,34 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-const StickyHeader = ({ defaultSticky = false, scrollPastHeight = 80 }) => {
-  const [isSticky, setIsSticky] = useState(defaultSticky);
-  const elementRef = useRef(null);
-  const toggleSticky = useCallback(
-    ({ top, bottom }) => {
-      if (top <= 0 && bottom > scrollPastHeight) {
-        console.log('bottom ::', bottom);
-        console.log('top ::', top);
-        !isSticky && setIsSticky(true);
-      } else {
-        isSticky && setIsSticky(false);
-      }
-    },
-    [isSticky]
-  );
+const useWindowEvent = (eventName, handler) => {
+  if (typeof window === 'undefined') return;
 
   useEffect(() => {
-    const handleScroll = () => {
-      toggleSticky(elementRef.current.getBoundingClientRect());
-    };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener(eventName, handler);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [toggleSticky]);
-  return { elementRef, isSticky };
+      window.removeEventListener(eventName, handler)
+    }
+  })
+}
+
+const getScrollPosition = (refElement) => (
+  refElement.current.ownerDocument.scrollingElement.scrollTop
+)
+
+const hasScrolledPast = ({ distance = 80 }) => {
+  const [isPast, setIsPast] = useState(false);
+  const scroller = useRef();
+
+  const togglePast = (nextValue) => isPast !== nextValue && setIsPast(nextValue);
+
+  const handleScroll = () => togglePast(
+    distance < getScrollPosition(scroller)
+  );
+
+  useWindowEvent('scroll', handleScroll);
+
+  return { isPast, scroller };
 };
 
-export { StickyHeader };
+export { hasScrolledPast };

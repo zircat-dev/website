@@ -5,6 +5,8 @@ import { Controller } from './Controller';
 import { Logo } from './Logo';
 import { Headline } from './Headline';
 import { Content } from './Content';
+import Block from './Block';
+import LogoVector from '../../common/logo';
 
 import { CONTENT } from './constants';
 
@@ -12,10 +14,13 @@ const Landing = () => {
   return (
     <Controller>
       <Container fluid>
-        {/*Logo*/}
-        <Logo center />
         {/*Headline*/}
         <Headline>{CONTENT.headline}</Headline>
+
+        <Block hero>
+          {/*Logo*/}
+          <LogoVector />
+        </Block>
 
         <Row>
           <Col xs={12} md={6}>

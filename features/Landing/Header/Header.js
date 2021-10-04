@@ -14,6 +14,10 @@ const fadeBorderBottom = keyframes`
     100% { border-bottom: 1px solid #222230; }
 `;
 
+const HeaderPlaceholder = styled.div({
+  height: '72px'
+});
+
 const HeaderContainer = styled.div`
   ${props =>
     props.isSticky &&
@@ -49,38 +53,42 @@ const HeaderLogo = styled.div`
 
 const Header = ({ isSticky = false }) => {
   const logo = useRef(null);
+
   useEffect(() => {
     if (logo.current) {
-      TweenMax.to(logo.current, 0.8, {
+      TweenMax.to(logo.current, 2.8, {
         opacity: 1,
         y: 0,
         scale: 1,
         ease: Power3.easeOut,
       });
     }
-  }, []);
-  return (
-    <HeaderContainer isSticky={isSticky}>
-      <Container fluid>
-        <Row>
-          <Col lg={12}>
-            <HeaderContent>
-              <HeaderLogo ref={logo}>
-                <Logo />
-              </HeaderLogo>
+  }, [isSticky]);
 
-              <Navigation
-                options={{
-                  about: { id: 'about', route: '/', label: 'About' },
-                  team: { id: 'team', route: '/', label: 'Team' },
-                  contact: { id: 'contact', route: '/', label: 'Contact' },
-                }}
-              />
-            </HeaderContent>
-          </Col>
-        </Row>
-      </Container>
-    </HeaderContainer>
+  return (
+    <HeaderPlaceholder>
+      <HeaderContainer isSticky={isSticky}>
+        <Container fluid>
+          <Row>
+            <Col lg={12}>
+              <HeaderContent>
+                <HeaderLogo ref={logo}>
+                  <Logo />
+                </HeaderLogo>
+
+                <Navigation
+                  options={{
+                    about: { id: 'about', route: '/', label: 'About' },
+                    team: { id: 'team', route: '/', label: 'Team' },
+                    contact: { id: 'contact', route: '/', label: 'Contact' },
+                  }}
+                />
+              </HeaderContent>
+            </Col>
+          </Row>
+        </Container>
+      </HeaderContainer>
+    </HeaderPlaceholder>
   );
 };
 
